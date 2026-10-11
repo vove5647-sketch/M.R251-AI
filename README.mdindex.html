@@ -1,0 +1,532 @@
+# M.R251-AI
+ M.R251 AI — مساعد كتاب تمرد بلا حدود اختر 
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#090909">
+<title>M.R251 AI — المساحة الرمادية</title>
+
+<style>
+:root {
+  --bg: #090909;
+  --panel: #111111;
+  --gold: #d5b46a;
+  --gold-light: #f1d99b;
+  --text: #f4f0e8;
+  --muted: #9b978f;
+  --border: rgba(213,180,106,.22);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse at 50% 0%, #242016 0%, transparent 45%),
+    var(--bg);
+  color: var(--text);
+  font-family: Tahoma, Arial, sans-serif;
+}
+
+button, textarea {
+  font: inherit;
+}
+
+.app {
+  min-height: 100vh;
+  max-width: 900px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 18px;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 2px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.logo {
+  width: 43px;
+  height: 43px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--gold);
+  border-radius: 50%;
+  color: var(--gold-light);
+  font-size: 14px;
+  font-weight: bold;
+  box-shadow: 0 0 20px #d5b46a12;
+}
+
+.brand-name {
+  font-size: 17px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.brand-sub {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 5px;
+}
+
+.status {
+  color: var(--muted);
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.status::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-left: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+}
+
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.welcome {
+  text-align: center;
+  margin: auto 0 25px;
+  padding: 65px 10px 20px;
+}
+
+.symbol {
+  font-size: 33px;
+  color: var(--gold);
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-size: clamp(25px, 5vw, 36px);
+  margin: 0 0 13px;
+  font-weight: 600;
+}
+
+h1 span {
+  color: var(--gold-light);
+}
+
+.welcome p {
+  color: var(--muted);
+  line-height: 2;
+  font-size: 14px;
+  max-width: 490px;
+  margin: auto;
+}
+
+.suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 9px;
+  margin-top: 25px;
+}
+
+.suggestion {
+  background: #121212;
+  color: #ddd5c4;
+  border: 1px solid var(--border);
+  padding: 11px 14px;
+  border-radius: 22px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: .2s;
+}
+
+.suggestion:hover {
+  border-color: var(--gold);
+  color: var(--gold-light);
+}
+
+#messages {
+  display: none;
+  flex-direction: column;
+  gap: 17px;
+  padding: 25px 0;
+}
+
+.message {
+  max-width: 88%;
+  padding: 14px 16px;
+  border-radius: 17px;
+  line-height: 1.9;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.message.user {
+  align-self: flex-start;
+  background: #211e17;
+  border: 1px solid var(--border);
+  border-bottom-right-radius: 5px;
+}
+
+.message.bot {
+  align-self: flex-end;
+  background: #121212;
+  border: 1px solid #ffffff12;
+  border-bottom-left-radius: 5px;
+}
+
+.message-label {
+  color: var(--gold);
+  font-size: 10px;
+  margin-bottom: 6px;
+}
+
+.composer-area {
+  margin-top: auto;
+  padding-top: 25px;
+}
+
+.composer {
+  display: flex;
+  align-items: flex-end;
+  gap: 9px;
+  padding: 10px 12px;
+  background: #121212;
+  border: 1px solid #6e5b34;
+  border-radius: 25px;
+  box-shadow: 0 0 28px #00000055;
+}
+
+.composer:focus-within {
+  border-color: var(--gold);
+}
+
+#prompt {
+  flex: 1;
+  min-width: 0;
+  min-height: 28px;
+  max-height: 150px;
+  resize: none;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--text);
+  padding: 7px 3px;
+  line-height: 1.7;
+}
+
+#prompt::placeholder {
+  color: #858078;
+}
+
+.action {
+  flex-shrink: 0;
+  width: 39px;
+  height: 39px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #1b1914;
+  color: var(--gold-light);
+  cursor: pointer;
+}
+
+.action:hover {
+  background: #302717;
+}
+
+#send {
+  background: var(--gold);
+  color: #111;
+  border-color: var(--gold);
+  font-size: 19px;
+  font-weight: bold;
+}
+
+#send:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+}
+
+#newChat {
+  background: transparent;
+  border: 0;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 12px;
+  padding: 12px;
+}
+
+#newChat:hover {
+  color: var(--gold-light);
+}
+
+.notice {
+  text-align: center;
+  color: #77736b;
+  font-size: 10px;
+  line-height: 1.8;
+  padding: 12px 5px 3px;
+}
+
+footer {
+  text-align: center;
+  padding: 15px 0 4px;
+  color: #706b61;
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+footer span {
+  color: var(--gold);
+}
+
+@media (max-width: 500px) {
+  .app { padding: 13px; }
+  .welcome { padding-top: 55px; }
+  .message { max-width: 95%; }
+  .status { font-size: 10px; }
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+  <header>
+    <div class="brand">
+      <div class="logo">M.R</div>
+      <div>
+        <div class="brand-name">M.R251 AI</div>
+        <div class="brand-sub">مساحة للأسئلة التي لا تنتهي</div>
+      </div>
+    </div>
+    <div class="status" id="status">المساعد الرقمي</div>
+  </header>
+
+  <main>
+    <section class="welcome" id="welcome">
+      <div class="symbol">⛓</div>
+      <h1>مرحبًا بك في <span>المساحة الرمادية.</span></h1>
+      <p>
+        أنا M.R251 AI، مساعدك لاستكشاف الأفكار ومراجعة المسلّمات.
+        لن أخبرك دائمًا بما تريد سماعه، ولن أختلق إجابة لا أملكها.
+      </p>
+
+      <div class="suggestions">
+        <button class="suggestion" data-message="ما الفكرة العامة لكتاب تمرد بلا حدود؟">
+          عن الكتاب
+        </button>
+        <button class="suggestion" data-message="ساعدني في مراجعة إحدى أفكاري.">
+          راجع أفكارك
+        </button>
+        <button class="suggestion" data-message="ما معنى التمرد من منظور فلسفي؟">
+          معنى التمرد
+        </button>
+      </div>
+    </section>
+
+    <section id="messages" aria-live="polite"></section>
+  </main>
+
+  <section class="composer-area">
+    <div class="composer">
+      <button class="action" id="newChat" title="محادثة جديدة"
+        aria-label="محادثة جديدة">+</button>
+
+      <textarea id="prompt" rows="1"
+        placeholder="اكتب سؤالك هنا..."
+        aria-label="اكتب رسالتك"></textarea>
+
+      <button class="action" id="send" title="إرسال"
+        aria-label="إرسال الرسالة">↑</button>
+    </div>
+
+    <div class="notice" id="notice">
+      لا تشارك كلمات المرور أو المعلومات الشخصية الحساسة.
+      المحادثة لا تُحفظ بشكل دائم بواسطة هذه الواجهة.
+    </div>
+  </section>
+
+  <footer>
+    M.R251 <span>◆</span> THINK BEYOND THE FRAME
+  </footer>
+</div>
+
+<script>
+"use strict";
+
+/* رابط خدمة Cloud Run ومسار المحادثة */
+const API_URL =
+  "https://m-r251-490294907263.europe-west2.run.app/api/chat";
+
+const promptInput = document.getElementById("prompt");
+const sendButton = document.getElementById("send");
+const messagesBox = document.getElementById("messages");
+const welcomeBox = document.getElementById("welcome");
+const statusBox = document.getElementById("status");
+const newChatButton = document.getElementById("newChat");
+
+let history = [];
+let busy = false;
+
+function addMessage(role, text) {
+  const bubble = document.createElement("div");
+  bubble.className = "message " + role;
+
+  const label = document.createElement("div");
+  label.className = "message-label";
+  label.textContent = role === "user" ? "أنت" : "M.R251 AI";
+
+  const content = document.createElement("div");
+  content.textContent = text;
+
+  bubble.appendChild(label);
+  bubble.appendChild(content);
+  messagesBox.appendChild(bubble);
+
+  messagesBox.scrollIntoView({
+    behavior: "smooth",
+    block: "end"
+  });
+
+  return bubble;
+}
+
+function setStatus(text) {
+  statusBox.textContent = text;
+}
+
+async function sendMessage(text) {
+  const message = text.trim();
+
+  if (!message || busy) return;
+
+  welcomeBox.style.display = "none";
+  messagesBox.style.display = "flex";
+
+  addMessage("user", message);
+  promptInput.value = "";
+  promptInput.style.height = "auto";
+
+  busy = true;
+  sendButton.disabled = true;
+  setStatus("يفكر...");
+
+  const waitingBubble = addMessage("bot", "أفكر في سؤالك...");
+
+  try {
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        message: message,
+        history: history
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error("HTTP " + response.status);
+    }
+
+    const data = await response.json();
+
+    const reply =
+      typeof data.reply === "string" ? data.reply :
+      typeof data.response === "string" ? data.response :
+      typeof data.text === "string" ? data.text : "";
+
+    if (!reply) {
+      throw new Error("EMPTY_REPLY");
+    }
+
+    waitingBubble.lastChild.textContent = reply;
+
+    history.push(
+      { role: "user", content: message },
+      { role: "assistant", content: reply }
+    );
+
+    // الاحتفاظ بآخر الرسائل فقط لتقليل حجم الطلب.
+    if (history.length > 20) {
+      history = history.slice(-20);
+    }
+
+    setStatus("المساعد الرقمي");
+
+  } catch (error) {
+    waitingBubble.lastChild.textContent =
+      "تعذّر الاتصال بالخادم أو استلام رد صالح. " +
+      "تأكد من إعداد مسار /api/chat في Cloud Run، " +
+      "ومن السماح بطلبات المتصفح (CORS). ثم حاول مجددًا.";
+
+    setStatus("تعذّر الاتصال");
+    console.error("M.R251 AI request failed:", error);
+
+  } finally {
+    busy = false;
+    sendButton.disabled = false;
+    promptInput.focus();
+  }
+}
+
+sendButton.addEventListener("click", function () {
+  sendMessage(promptInput.value);
+});
+
+promptInput.addEventListener("keydown", function (event) {
+  if (event.key === "Enter" && !event.shiftKey) {
+    event.preventDefault();
+    sendMessage(promptInput.value);
+  }
+});
+
+promptInput.addEventListener("input", function () {
+  this.style.height = "auto";
+  this.style.height = Math.min(this.scrollHeight, 150) + "px";
+});
+
+document.querySelectorAll(".suggestion").forEach(function (button) {
+  button.addEventListener("click", function () {
+    sendMessage(this.dataset.message || "");
+  });
+});
+
+newChatButton.addEventListener("click", function () {
+  if (busy) return;
+
+  history = [];
+  messagesBox.replaceChildren();
+  messagesBox.style.display = "none";
+  welcomeBox.style.display = "block";
+  promptInput.value = "";
+  promptInput.style.height = "auto";
+  setStatus("المساعد الرقمي");
+  promptInput.focus();
+});
+</script>
+</body>
+</html>
