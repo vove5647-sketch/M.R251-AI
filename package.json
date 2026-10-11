@@ -1,0 +1,17 @@
+
+{
+  "name": "mr251-ai",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "@google/genai": "^1.0.0",
+    "express": "^5.0.0"
+  }
+}
